@@ -3,17 +3,25 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		A42AE1042E5A3A560050EAA7 /* App_Financas2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42AE1032E5A3A560050EAA7 /* App_Financas2App.swift */; };
-		A42AE1062E5A3A560050EAA7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42AE1052E5A3A560050EAA7 /* ContentView.swift */; };
 		A42AE1082E5A3A590050EAA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A42AE1072E5A3A590050EAA7 /* Assets.xcassets */; };
 		A42AE10B2E5A3A590050EAA7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A42AE10A2E5A3A590050EAA7 /* Preview Assets.xcassets */; };
 		A42AE1152E5A3A590050EAA7 /* App_Financas2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42AE1142E5A3A590050EAA7 /* App_Financas2Tests.swift */; };
 		A42AE11F2E5A3A590050EAA7 /* App_Financas2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42AE11E2E5A3A590050EAA7 /* App_Financas2UITests.swift */; };
 		A42AE1212E5A3A590050EAA7 /* App_Financas2UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42AE1202E5A3A590050EAA7 /* App_Financas2UITestsLaunchTests.swift */; };
+		A42AE12E2E5A4E3A0050EAA7 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42AE12D2E5A4E3A0050EAA7 /* Model.swift */; };
+		A42AE1302E5A4E5D0050EAA7 /* StorageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42AE12F2E5A4E5D0050EAA7 /* StorageController.swift */; };
+		A42AE1322E5A4E7C0050EAA7 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42AE1312E5A4E7C0050EAA7 /* Views.swift */; };
+		A42AE1342E5A4EAC0050EAA7 /* contentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42AE1332E5A4EAC0050EAA7 /* contentView.swift */; };
+		A42AE1372E5A55200050EAA7 /* GastosDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A42AE1352E5A55200050EAA7 /* GastosDataModel.xcdatamodeld */; };
+		A45944FD2E5BD6C1002E9B8E /* PDFExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A45944FC2E5BD6C1002E9B8E /* PDFExportManager.swift */; };
+		A49454B82E5BCD2300F99731 /* GastoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49454B72E5BCD2300F99731 /* GastoController.swift */; };
+		A49454BA2E5BCD5B00F99731 /* CSVExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49454B92E5BCD5B00F99731 /* CSVExportManager.swift */; };
+		A4D6C5E62E5A5E8100ED4615 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D6C5E52E5A5E8100ED4615 /* PersistenceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +44,6 @@
 /* Begin PBXFileReference section */
 		A42AE1002E5A3A560050EAA7 /* App-Financas2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App-Financas2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A42AE1032E5A3A560050EAA7 /* App_Financas2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App_Financas2App.swift; sourceTree = "<group>"; };
-		A42AE1052E5A3A560050EAA7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A42AE1072E5A3A590050EAA7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A42AE10A2E5A3A590050EAA7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A42AE1102E5A3A590050EAA7 /* App-Financas2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "App-Financas2Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +51,15 @@
 		A42AE11A2E5A3A590050EAA7 /* App-Financas2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "App-Financas2UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A42AE11E2E5A3A590050EAA7 /* App_Financas2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App_Financas2UITests.swift; sourceTree = "<group>"; };
 		A42AE1202E5A3A590050EAA7 /* App_Financas2UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App_Financas2UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A42AE12D2E5A4E3A0050EAA7 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		A42AE12F2E5A4E5D0050EAA7 /* StorageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageController.swift; sourceTree = "<group>"; };
+		A42AE1312E5A4E7C0050EAA7 /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
+		A42AE1332E5A4EAC0050EAA7 /* contentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = contentView.swift; sourceTree = "<group>"; };
+		A42AE1362E5A55200050EAA7 /* GastosDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GastosDataModel.xcdatamodel; sourceTree = "<group>"; };
+		A45944FC2E5BD6C1002E9B8E /* PDFExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportManager.swift; sourceTree = "<group>"; };
+		A49454B72E5BCD2300F99731 /* GastoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GastoController.swift; sourceTree = "<group>"; };
+		A49454B92E5BCD5B00F99731 /* CSVExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVExportManager.swift; sourceTree = "<group>"; };
+		A4D6C5E52E5A5E8100ED4615 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +90,9 @@
 		A42AE0F72E5A3A560050EAA7 = {
 			isa = PBXGroup;
 			children = (
+				A45944FC2E5BD6C1002E9B8E /* PDFExportManager.swift */,
+				A49454B92E5BCD5B00F99731 /* CSVExportManager.swift */,
+				A42AE1352E5A55200050EAA7 /* GastosDataModel.xcdatamodeld */,
 				A42AE1022E5A3A560050EAA7 /* App-Financas2 */,
 				A42AE1132E5A3A590050EAA7 /* App-Financas2Tests */,
 				A42AE11D2E5A3A590050EAA7 /* App-Financas2UITests */,
@@ -95,9 +114,12 @@
 			isa = PBXGroup;
 			children = (
 				A42AE1032E5A3A560050EAA7 /* App_Financas2App.swift */,
-				A42AE1052E5A3A560050EAA7 /* ContentView.swift */,
 				A42AE1072E5A3A590050EAA7 /* Assets.xcassets */,
 				A42AE1092E5A3A590050EAA7 /* Preview Content */,
+				A42AE12D2E5A4E3A0050EAA7 /* Model.swift */,
+				A42AE12F2E5A4E5D0050EAA7 /* StorageController.swift */,
+				A42AE1312E5A4E7C0050EAA7 /* Views.swift */,
+				A42AE1332E5A4EAC0050EAA7 /* contentView.swift */,
 			);
 			path = "App-Financas2";
 			sourceTree = "<group>";
@@ -106,6 +128,8 @@
 			isa = PBXGroup;
 			children = (
 				A42AE10A2E5A3A590050EAA7 /* Preview Assets.xcassets */,
+				A4D6C5E52E5A5E8100ED4615 /* PersistenceController.swift */,
+				A49454B72E5BCD2300F99731 /* GastoController.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -207,7 +231,7 @@
 				};
 			};
 			buildConfigurationList = A42AE0FB2E5A3A560050EAA7 /* Build configuration list for PBXProject "App-Financas2" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -257,8 +281,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A42AE1062E5A3A560050EAA7 /* ContentView.swift in Sources */,
+				A45944FD2E5BD6C1002E9B8E /* PDFExportManager.swift in Sources */,
+				A42AE1342E5A4EAC0050EAA7 /* contentView.swift in Sources */,
+				A4D6C5E62E5A5E8100ED4615 /* PersistenceController.swift in Sources */,
+				A49454B82E5BCD2300F99731 /* GastoController.swift in Sources */,
+				A42AE12E2E5A4E3A0050EAA7 /* Model.swift in Sources */,
+				A42AE1372E5A55200050EAA7 /* GastosDataModel.xcdatamodeld in Sources */,
+				A49454BA2E5BCD5B00F99731 /* CSVExportManager.swift in Sources */,
 				A42AE1042E5A3A560050EAA7 /* App_Financas2App.swift in Sources */,
+				A42AE1322E5A4E7C0050EAA7 /* Views.swift in Sources */,
+				A42AE1302E5A4E5D0050EAA7 /* StorageController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +461,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -457,6 +490,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -582,6 +616,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A42AE1352E5A55200050EAA7 /* GastosDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A42AE1362E5A55200050EAA7 /* GastosDataModel.xcdatamodel */,
+			);
+			currentVersion = A42AE1362E5A55200050EAA7 /* GastosDataModel.xcdatamodel */;
+			name = GastosDataModel.xcdatamodeld;
+			path = "/Users/andersonalmeida/Desktop/App-Financas2/GastosDataModel.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A42AE0F82E5A3A560050EAA7 /* Project object */;
 }
