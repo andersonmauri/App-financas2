@@ -134,7 +134,7 @@ struct ContentView: View {
                                 }
                             }
                             
-                            // Chamada corrigida: a closure agora tem um rótulo externo 'onCompletion'//
+                            // Chamada corrigida: a closure agora tem um rótulo externo 'onCompletion'
                             PDFExportManager.gerarPDF(
                                 from: pdfView,
                                 nomeArquivo: "Gastos_\(mesSelecionado)_\(anoSelecionado)",
