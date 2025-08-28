@@ -134,17 +134,18 @@ struct ContentView: View {
                                 }
                             }
                             
-                            // Chamada correta com a view criada.
+                            // Chamada corrigida: a closure agora tem um rótulo externo 'onCompletion'
                             PDFExportManager.gerarPDF(
                                 from: pdfView,
-                                nomeArquivo: "Gastos_\(mesSelecionado)_\(anoSelecionado)"
-                            ) { url in
-                                if let url = url {
-                                    print("PDF salvo em: \(url)")
-                                } else {
-                                    print("Erro ao gerar PDF.")
+                                nomeArquivo: "Gastos_\(mesSelecionado)_\(anoSelecionado)",
+                                onCompletion: { url in // <-- Rótulo 'onCompletion' adicionado
+                                    if let url = url {
+                                        print("PDF salvo em: \(url)")
+                                    } else {
+                                        print("Erro ao gerar PDF.")
+                                    }
                                 }
-                            }
+                            )
                         }
                         .padding().background(Color.purple.opacity(0.7)).cornerRadius(10).foregroundColor(.white)
                     }.padding(.horizontal)
