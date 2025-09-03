@@ -3,7 +3,7 @@ import SwiftUI
 import UIKit // Importe o UIKit para usar UIGraphicsPDFRenderer
 
 struct PDFExportManager {
-    static func gerarPDF(from view: some View, nomeArquivo: String) -> URL? {
+    static func gerarPDF(from view: some View, nomeArquivo: String, onCompletion: ((URL?) -> Void)) {
         // Envolve a view SwiftUI em um UIHostingController
         let hostingController = UIHostingController(rootView: view)
         hostingController.view.frame = CGRect(x: 0, y: 0, width: 612, height: 792) // Tamanho de uma página A4
@@ -17,7 +17,8 @@ struct PDFExportManager {
         
         guard let diretorioDocumentos = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             print("Diretório de documentos não encontrado.")
-            return nil
+            onCompletion(nil)
+            return
         }
         
         let urlArquivo = diretorioDocumentos.appendingPathComponent(nomeArquivo).appendingPathExtension("pdf")
@@ -25,10 +26,11 @@ struct PDFExportManager {
         do {
             try data.write(to: urlArquivo, options: .atomic)
             print("PDF salvo com sucesso em: \(urlArquivo)")
-            return urlArquivo
+            onCompletion(urlArquivo)
         } catch {
             print("Erro ao salvar PDF: \(error.localizedDescription)")
-            return nil
+            onCompletion(nil)
+            return
         }
     }
 }
