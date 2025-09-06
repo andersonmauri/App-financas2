@@ -2,57 +2,60 @@ import Foundation
 import CoreData
 
 // MARK: - Enums auxiliares
-enum Pessoa: String, CaseIterable {
-    case marido, esposa
+
+enum CasaSubCategoria: String, CaseIterable {
+    case Eletrodomesticos, Manutenção, Móveis, Reforma
 }
 
 enum Categoria: String, CaseIterable {
-    case Agua, Luz, Internet, Ifood, Feira, Refeicao, Mercado, Credito, Farmacia, Filhos, Vestuário, Carro, Igreja, Casa
+    case Agua, Carro, Casa, Credito, Estudos, Feira, Filhos, Farmacia, Ifood, Igreja, Internet, Luz, Mercado, Refeicao, Vestuário, Viagem
     
     var emoji: String {
         switch self {
         case .Agua: return "💧"
-        case .Luz: return "⚡"
-        case .Internet: return "🌐"
-        case .Ifood: return "🍔"
-        case .Feira: return "🥬"
-        case .Refeicao: return "🍽️"
-        case .Mercado: return "🛒"
-        case .Credito: return "💳"
-        case .Farmacia: return "💊"
-        case .Filhos: return "👶"
-        case .Vestuário: return "👕"
         case .Carro: return "🚗"
-        case .Igreja: return "⛪️"
         case .Casa: return "🏠"
+        case .Credito: return "💳"
+        case .Estudos: return "📕"
+        case .Feira: return "🥬"
+        case .Filhos: return "👶"
+        case .Farmacia: return "💊"
+        case .Ifood: return "🍔"
+        case .Igreja: return "⛪️"
+        case .Internet: return "🌐"
+        case .Luz: return "⚡"
+        case .Mercado: return "🛒"
+        case .Refeicao: return "🍽️"
+        case .Vestuário: return "👕"
+        case .Viagem: return "✈️"
         }
     }
 }
 
-enum SubCategoria: String, CaseIterable {
-    case prestacao, gasolina, manutencao
+enum Filhos: String, CaseIterable {
+    case Calçado, Diversos, Escola, Roupa
 }
 
-enum Refeicao: String, CaseIterable {
-    case Café, Almoço, Lanche, Janta
-}
-
-enum CasaSubCategoria: String, CaseIterable {
-    case Manutenção, Reforma, Móveis, Eletrodomesticos
+enum FormaPagamento: String, CaseIterable {
+    case Crédito, dinheiro, outros, pix
 }
 
 enum Igreja: String, CaseIterable {
     case Cantina, Dizimo, Doação
 }
 
-enum FormaPagamento: String, CaseIterable {
-    case dinheiro, pix, Crédito, outros
+enum Pessoa: String, CaseIterable {
+    case esposa, marido
 }
 
-enum Filhos: String, CaseIterable {
-    case Roupa, Calçado, Escola, Diversos
+enum Refeicao: String, CaseIterable {
+    case Almoço, Café, Janta, Lanche
+}
+
+enum SubCategoria: String, CaseIterable {
+    case gasolina, manutencao, prestacao
 }
 
 enum Vestuário: String, CaseIterable {
-    case Roupa, Calçado, Diversos
+    case Calçado, Diversos, Roupa
 }
