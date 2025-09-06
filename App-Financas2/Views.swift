@@ -7,8 +7,13 @@ struct AdicionarGastoView: View {
     @ObservedObject var controller: GastoController
     
     @State private var pessoa: Pessoa = .marido
-    @State private var categoria: Categoria = .agua
+    @State private var categoria: Categoria = .Agua
     @State private var subCategoria: SubCategoria? = nil
+    @State private var  casaSubCategoria: CasaSubCategoria? = nil
+    @State private var  refeicao: Refeicao? = nil
+    @State private var  igreja: Igreja? = nil
+    @State private var  filhos: Filhos? = nil
+    @State private var  vestuario: Vestuário? = nil
     @State private var valor: String = ""
     @State private var formaPagamento: FormaPagamento = .dinheiro
     @State private var data: Date = Date()
@@ -26,13 +31,55 @@ struct AdicionarGastoView: View {
                     }
                 }
                 .onChange(of: categoria) { _ in
-                    subCategoria = categoria == .carro ? .prestacao : nil
+                    subCategoria = categoria == .Carro ? .prestacao : nil
+                    casaSubCategoria = categoria == .Casa ? .Manutenção : nil
+                    refeicao = categoria == .Refeicao ? .Café : nil
+                    igreja = categoria == .Igreja ? .Cantina : nil
+                    vestuario = categoria == .Vestuário ? .Calçado : nil
+                    filhos = categoria == .Filhos ? .Escola : nil
+
                 }
                 
-                if categoria == .carro {
-                    Picker("Subcategoria", selection: $subCategoria) {
+                if categoria == .Carro {
+                    Picker("Qual foi o seu gasto?", selection: $subCategoria) {
                         ForEach(SubCategoria.allCases, id: \.self) { Text($0.rawValue.capitalized) }
                     }
+                    
+                }
+                
+                if categoria == .Casa {
+                    Picker("Qual foi o seu  Gasto?", selection: $casaSubCategoria) {
+                        ForEach(CasaSubCategoria.allCases, id: \.self) { Text($0.rawValue.capitalized) }
+                    }
+                    
+                }
+                
+                if categoria == .Refeicao {
+                    Picker("Qual foi a sua Refeição?", selection: $refeicao) {
+                        ForEach(Refeicao.allCases, id: \.self) { Text($0.rawValue.capitalized) }
+                    }
+                    
+                }
+                
+                if categoria == .Igreja {
+                    Picker("Qual foi o seu  Gasto?", selection: $igreja) {
+                        ForEach(Igreja.allCases, id: \.self) { Text($0.rawValue.capitalized) }
+                    }
+                    
+                }
+                
+                if categoria == .Vestuário {
+                    Picker("Qual foi o seu  Gasto?", selection: $vestuario) {
+                        ForEach(Vestuário.allCases, id: \.self) { Text($0.rawValue.capitalized) }
+                    }
+                    
+                }
+                
+                if categoria == .Filhos {
+                    Picker("Qual foi o seu  Gasto?", selection: $filhos) {
+                        ForEach(Filhos.allCases, id: \.self) { Text($0.rawValue.capitalized) }
+                    }
+                    
                 }
                 
                 HStack {

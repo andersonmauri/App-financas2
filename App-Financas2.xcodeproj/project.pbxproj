@@ -18,6 +18,7 @@
 		A42AE1302E5A4E5D0050EAA7 /* StorageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42AE12F2E5A4E5D0050EAA7 /* StorageController.swift */; };
 		A42AE1322E5A4E7C0050EAA7 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42AE1312E5A4E7C0050EAA7 /* Views.swift */; };
 		A42AE1342E5A4EAC0050EAA7 /* contentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42AE1332E5A4EAC0050EAA7 /* contentView.swift */; };
+		A42C8FBD2E68F925004CAEFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A42C8FBC2E68F925004CAEFE /* Assets.xcassets */; };
 		A45944FD2E5BD6C1002E9B8E /* PDFExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A45944FC2E5BD6C1002E9B8E /* PDFExportManager.swift */; };
 		A49454B82E5BCD2300F99731 /* GastoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49454B72E5BCD2300F99731 /* GastoController.swift */; };
 		A49454BA2E5BCD5B00F99731 /* CSVExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49454B92E5BCD5B00F99731 /* CSVExportManager.swift */; };
@@ -56,6 +57,7 @@
 		A42AE12F2E5A4E5D0050EAA7 /* StorageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageController.swift; sourceTree = "<group>"; };
 		A42AE1312E5A4E7C0050EAA7 /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		A42AE1332E5A4EAC0050EAA7 /* contentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = contentView.swift; sourceTree = "<group>"; };
+		A42C8FBC2E68F925004CAEFE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A45944FC2E5BD6C1002E9B8E /* PDFExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportManager.swift; sourceTree = "<group>"; };
 		A49454B72E5BCD2300F99731 /* GastoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GastoController.swift; sourceTree = "<group>"; };
 		A49454B92E5BCD5B00F99731 /* CSVExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVExportManager.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 		A42AE0F72E5A3A560050EAA7 = {
 			isa = PBXGroup;
 			children = (
+				A42C8FBC2E68F925004CAEFE /* Assets.xcassets */,
 				A45944FC2E5BD6C1002E9B8E /* PDFExportManager.swift */,
 				5190CF682E68055A000D7859 /* GastosDataModel.xcdatamodeld */,
 				A49454B92E5BCD5B00F99731 /* CSVExportManager.swift */,
@@ -256,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A42AE10B2E5A3A590050EAA7 /* Preview Assets.xcassets in Resources */,
+				A42C8FBD2E68F925004CAEFE /* Assets.xcassets in Resources */,
 				A42AE1082E5A3A590050EAA7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -453,9 +457,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"App-Financas2/Preview Content\"";
+				DEVELOPMENT_TEAM = 9CT2NUVU5C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -482,9 +488,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"App-Financas2/Preview Content\"";
+				DEVELOPMENT_TEAM = 9CT2NUVU5C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

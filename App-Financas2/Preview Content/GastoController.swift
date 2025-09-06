@@ -32,6 +32,9 @@ class GastoController: ObservableObject {
         }
     }
     
+    
+    
+    
     func adicionarGasto(categoria: String, subCategoria: String?, valor: Double, pessoa: String, formaPagamento: String) {
         let novoGasto = GastoEntity(context: context)
         novoGasto.categoria = categoria

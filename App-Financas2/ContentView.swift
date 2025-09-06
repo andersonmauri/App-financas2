@@ -15,6 +15,10 @@ struct ContentView: View {
     @State private var salarioMarido: String = ""
     @State private var salarioEsposa: String = ""
     
+    // Teclado: controle de foco SwiftUI (sem UIKit)
+    private enum FocusedField: Hashable { case salarioMarido, salarioEsposa }
+    @FocusState private var focusedField: FocusedField?
+    
     // MARK: - Filtro mês/ano
     @State private var mesSelecionado = Calendar.current.component(.month, from: Date())
     @State private var anoSelecionado = Calendar.current.component(.year, from: Date())
@@ -37,12 +41,15 @@ struct ContentView: View {
                     HStack {
                         Picker("Mês", selection: $mesSelecionado) {
                             ForEach(1...12, id: \.self) { Text("\($0)") }
-                        }.pickerStyle(MenuPickerStyle())
+                        }
+                        .pickerStyle(MenuPickerStyle())
                             
                         Picker("Ano", selection: $anoSelecionado) {
                             ForEach(2023...2030, id: \.self) { Text("\($0)") }
-                        }.pickerStyle(MenuPickerStyle())
-                    }.padding(.horizontal)
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                    }
+                    .padding(.horizontal)
                     
                     // Salários
                     HStack {
@@ -50,16 +57,23 @@ struct ContentView: View {
                             Text("R$").foregroundColor(.gray)
                             TextField("Salário Marido", text: $salarioMarido)
                                 .keyboardType(.decimalPad)
+                                .focused($focusedField, equals: .salarioMarido)
                         }
-                        .padding().background(Color.blue.opacity(0.1)).cornerRadius(8)
+                        .padding()
+                        .background(Color.blue.opacity(0.1))
+                        .cornerRadius(8)
                         
                         HStack {
                             Text("R$").foregroundColor(.gray)
                             TextField("Salário Esposa", text: $salarioEsposa)
                                 .keyboardType(.decimalPad)
+                                .focused($focusedField, equals: .salarioEsposa)
                         }
-                        .padding().background(Color.pink.opacity(0.1)).cornerRadius(8)
-                    }.padding(.horizontal)
+                        .padding()
+                        .background(Color.pink.opacity(0.1))
+                        .cornerRadius(8)
+                    }
+                    .padding(.horizontal)
                     
                     // Botão Adicionar Gasto
                     Button("➕ Adicionar Gasto") { mostrarAdicionarGasto = true }
@@ -81,7 +95,8 @@ struct ContentView: View {
                                     .foregroundColor(.gray)
                             }
                             Spacer()
-                            Circle().fill((g.pessoa == "marido") ? Color.blue : Color.pink)
+                            Circle()
+                                .fill((g.pessoa == "marido") ? Color.blue : Color.pink)
                                 .frame(width: 15, height: 15)
                         }
                         .padding(.horizontal)
@@ -104,9 +119,7 @@ struct ContentView: View {
                     // Exportação CSV/PDF
                     HStack {
                         Button("📄 CSV") {
-                            let csv = CSVExportManager.gerarCSV(
-                                gastos: gastosFiltrados
-                            )
+                            let csv = CSVExportManager.gerarCSV(gastos: gastosFiltrados)
                             if let url = CSVExportManager.salvarCSV(
                                 nomeArquivo: "Gastos_\(mesSelecionado)_\(anoSelecionado)",
                                 csvString: csv
@@ -114,7 +127,10 @@ struct ContentView: View {
                                 print("CSV salvo em: \(url)")
                             }
                         }
-                        .padding().background(Color.orange.opacity(0.7)).cornerRadius(10).foregroundColor(.white)
+                        .padding()
+                        .background(Color.orange.opacity(0.7))
+                        .cornerRadius(10)
+                        .foregroundColor(.white)
                         
                         Button("📄 PDF") {
                             let pdfView = ScrollView {
@@ -134,11 +150,10 @@ struct ContentView: View {
                                 }
                             }
                             
-                            // Chamada corrigida: a closure agora tem um rótulo externo 'onCompletion'
                             PDFExportManager.gerarPDF(
                                 from: pdfView,
                                 nomeArquivo: "Gastos_\(mesSelecionado)_\(anoSelecionado)",
-                                onCompletion: { url in // <-- Rótulo 'onCompletion' adicionado
+                                onCompletion: { url in
                                     if let url = url {
                                         print("PDF salvo em: \(url)")
                                     } else {
@@ -147,11 +162,25 @@ struct ContentView: View {
                                 }
                             )
                         }
-                        .padding().background(Color.purple.opacity(0.7)).cornerRadius(10).foregroundColor(.white)
-                    }.padding(.horizontal)
+                        .padding()
+                        .background(Color.purple.opacity(0.7))
+                        .cornerRadius(10)
+                        .foregroundColor(.white)
+                    }
+                    .padding(.horizontal)
+                }
+                // Tornar áreas vazias “tocáveis” + fechar teclado ao tocar fora
+                .contentShape(Rectangle())
+                .onTapGesture { focusedField = nil }
+            }
+            // Botão "Concluído" na barra do teclado (vale para qualquer TextField focado)
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Concluído") { focusedField = nil }
                 }
             }
-            .navigationTitle("Gastos Vanessa e Anderson")
+            .navigationTitle("Gerenciador de Gastos")
             .sheet(isPresented: $mostrarAdicionarGasto) {
                 AdicionarGastoView(controller: controller)
             }
