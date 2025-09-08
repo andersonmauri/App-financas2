@@ -1,6 +1,8 @@
+// ContentView.swift
 import SwiftUI
 import CoreData
 import Charts
+
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -14,12 +16,26 @@ struct ContentView: View {
     @State private var mostrarAdicionarGasto = false
     @State private var salarioGuardadoMsg: String? = nil
 
-    // Filtra pelos gastos do mês/ano selecionados
+    // Filtra os gastos do mês/ano selecionado
     var gastosFiltrados: [GastoEntity] {
         controller.filtrarPorMesAno(gastos: controller.gastos, mes: mesSelecionado, ano: anoSelecionado)
     }
 
-    // Chaves para UserDefaults (salário por mês/ano)
+    // Total de gastos do mês selecionado
+    var totalGastos: Double {
+        gastosFiltrados.reduce(0) { $0 + $1.valor }
+    }
+
+    // Total de salários disponíveis
+    var totalSalarios: Double {
+        (Double(salarioMarido) ?? 0) + (Double(salarioEsposa) ?? 0)
+    }
+
+    // Saldo restante
+    var saldoRestante: Double {
+        totalSalarios - totalGastos
+    }
+
     private var chaveSalarioMarido: String { "salarioMarido_\(mesSelecionado)_\(anoSelecionado)" }
     private var chaveSalarioEsposa: String { "salarioEsposa_\(mesSelecionado)_\(anoSelecionado)" }
 
@@ -33,6 +49,7 @@ struct ContentView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 16) {
+
                     // Filtro Mês/Ano
                     HStack {
                         Picker("Mês", selection: $mesSelecionado) {
@@ -58,8 +75,7 @@ struct ContentView: View {
                             .padding()
                             .background(Color.blue.opacity(0.1))
                             .cornerRadius(8)
-                    }
-                    .padding(.horizontal)
+                    }.padding(.horizontal)
 
                     HStack {
                         Text("R$").foregroundColor(.gray)
@@ -69,8 +85,7 @@ struct ContentView: View {
                             .padding()
                             .background(Color.pink.opacity(0.1))
                             .cornerRadius(8)
-                    }
-                    .padding(.horizontal)
+                    }.padding(.horizontal)
 
                     // Guardar salários
                     Button("💾 Guardar") {
@@ -90,8 +105,7 @@ struct ContentView: View {
                             Text(msg).foregroundColor(.green).bold()
                             if !salarioMarido.isEmpty { Text("Marido: R$ \(salarioMarido)").foregroundColor(.blue) }
                             if !salarioEsposa.isEmpty { Text("Esposa: R$ \(salarioEsposa)").foregroundColor(.pink) }
-                        }
-                        .padding(.horizontal)
+                        }.padding(.horizontal)
                     }
 
                     // Botão Adicionar Gasto
@@ -103,16 +117,13 @@ struct ContentView: View {
                         .foregroundColor(.white)
                         .padding(.horizontal)
 
-                    // Ordena os gastos por data (mais recente primeiro)
-                    let gastosOrdenados = gastosFiltrados.sorted {
-                        guard let d1 = $0.data, let d2 = $1.data else {
-                            // se faltar data, mantenha ordem original colocando não nulos antes/ depois
-                            return ($0.data != nil)
-                        }
+                    // Ordena por data decrescente (mais recentes primeiro)
+                    let gastosOrdenados = gastosFiltrados.sorted { g1, g2 in
+                        guard let d1 = g1.data, let d2 = g2.data else { return g1.data != nil }
                         return d1 > d2
                     }
 
-                    // Lista de gastos (mais recentes primeiro)
+                    // Lista de gastos
                     if !gastosOrdenados.isEmpty {
                         List {
                             ForEach(gastosOrdenados) { g in
@@ -120,22 +131,25 @@ struct ContentView: View {
                                     Text(Categoria(rawValue: g.categoria ?? "")?.emoji ?? "❓")
 
                                     VStack(alignment: .leading, spacing: 4) {
-                                        // Categoria
                                         Text(g.categoria ?? "")
                                             .font(.subheadline)
                                             .foregroundColor(.gray)
 
-                                        // Subcategoria (aparece apenas se preenchida) — mesma fonte/cor do valor
                                         if let sub = g.subCategoria, !sub.isEmpty {
                                             Text(sub)
                                                 .font(.subheadline)
                                                 .foregroundColor(.gray)
                                         }
 
-                                        // Valor e forma de pagamento
                                         Text("R$ \(g.valor, specifier: "%.2f") (\(g.formaPagamento ?? ""))")
                                             .font(.subheadline)
                                             .foregroundColor(.gray)
+
+                                        if let data = g.data {
+                                            Text("📅 \(data.formatted(.dateTime.day().month().year()))")
+                                                .font(.footnote)
+                                                .foregroundColor(.gray)
+                                        }
                                     }
 
                                     Spacer()
@@ -146,7 +160,6 @@ struct ContentView: View {
                                 }
                             }
                             .onDelete { indices in
-                                // indices referem-se à posição em gastosOrdenados
                                 for index in indices {
                                     let gasto = gastosOrdenados[index]
                                     controller.excluirGasto(gasto: gasto)
@@ -154,10 +167,33 @@ struct ContentView: View {
                             }
                         }
                         .frame(height: 300)
+
+                        // Soma dos gastos
+                        HStack {
+                            Text("💰 Total de Gastos:")
+                                .font(.headline)
+                            Spacer()
+                            Text("R$ \(totalGastos, specifier: "%.2f")")
+                                .font(.headline)
+                                .foregroundColor(.red)
+                        }
+                        .padding(.horizontal)
+
+                        // Saldo restante
+                        HStack {
+                            Text("💵 Saldo Restante:")
+                                .font(.headline)
+                            Spacer()
+                            Text("R$ \(saldoRestante, specifier: "%.2f")")
+                                .font(.headline)
+                                .foregroundColor(saldoRestante >= 0 ? .green : .red)
+                        }
+                        .padding(.horizontal)
+
                         Spacer().frame(height: 12)
                     }
 
-                    // Gráficos (usando lista ordenada)
+                    // Gráficos e exportação permanecem iguais
                     GraficoEntradasSaidas(
                         gastos: gastosOrdenados,
                         salarioMarido: Double(salarioMarido) ?? 0,
@@ -171,7 +207,6 @@ struct ContentView: View {
                     )
                     GraficoPizzaPorCategoria(gastos: gastosOrdenados)
 
-                    // Export CSV/PDF (usa gastosOrdenados)
                     HStack {
                         Button("📄 CSV") {
                             let csv = CSVExportManager.gerarCSV(gastos: gastosOrdenados)
@@ -235,14 +270,12 @@ struct ContentView: View {
             .sheet(isPresented: $mostrarAdicionarGasto) {
                 AdicionarGastoSheet(controller: controller, mesAtual: mesSelecionado, anoAtual: anoSelecionado)
             }
-            .onAppear {
-                carregarSalarios()
-            }
+            .onAppear { carregarSalarios() }
         }
     }
 }
 
-// MARK: - Sheet para adicionar gasto
+// MARK: - Sheet de Adicionar Gasto (mantido igual)
 struct AdicionarGastoSheet: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var controller: GastoController
@@ -268,7 +301,6 @@ struct AdicionarGastoSheet: View {
                 }
 
                 TextField("Subcategoria (opcional)", text: $subCategoria)
-
                 TextField("Valor", text: $valor)
                     .keyboardType(.decimalPad)
 
@@ -299,7 +331,6 @@ struct AdicionarGastoSheet: View {
                        parcelas > 0,
                        formaPagamento == "Crédito" {
 
-                        // Mantém a subcategoria informada junto com a info de parcela no controller
                         controller.adicionarGastoParcelado(
                             categoria: categoriaSelecionada.rawValue,
                             subCategoria: subCategoria,
