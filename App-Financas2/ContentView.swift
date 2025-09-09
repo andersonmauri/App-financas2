@@ -1,8 +1,6 @@
-// ContentView.swift
 import SwiftUI
 import CoreData
 import Charts
-
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -16,24 +14,27 @@ struct ContentView: View {
     @State private var mostrarAdicionarGasto = false
     @State private var salarioGuardadoMsg: String? = nil
 
-    // Filtra os gastos do mês/ano selecionado
     var gastosFiltrados: [GastoEntity] {
         controller.filtrarPorMesAno(gastos: controller.gastos, mes: mesSelecionado, ano: anoSelecionado)
     }
 
-    // Total de gastos do mês selecionado
     var totalGastos: Double {
         gastosFiltrados.reduce(0) { $0 + $1.valor }
     }
 
-    // Total de salários disponíveis
-    var totalSalarios: Double {
-        (Double(salarioMarido) ?? 0) + (Double(salarioEsposa) ?? 0)
+    var totalDinheiro: Double {
+        gastosFiltrados.filter { $0.formaPagamento == "Dinheiro" }.reduce(0) { $0 + $1.valor }
+    }
+    var totalCredito: Double {
+        gastosFiltrados.filter { $0.formaPagamento == "Crédito" }.reduce(0) { $0 + $1.valor }
+    }
+    var totalPix: Double {
+        gastosFiltrados.filter { $0.formaPagamento == "Pix" }.reduce(0) { $0 + $1.valor }
     }
 
-    // Saldo restante
     var saldoRestante: Double {
-        totalSalarios - totalGastos
+        let totalSalario = (Double(salarioMarido) ?? 0) + (Double(salarioEsposa) ?? 0)
+        return totalSalario - totalGastos
     }
 
     private var chaveSalarioMarido: String { "salarioMarido_\(mesSelecionado)_\(anoSelecionado)" }
@@ -45,10 +46,34 @@ struct ContentView: View {
         salarioGuardadoMsg = (salarioMarido.isEmpty && salarioEsposa.isEmpty) ? nil : "Salários Armazenados"
     }
 
+    // Gradiente principal (combina com o título)
+     let gradienteBotaoVerde = LinearGradient(
+        colors: [Color.blue, Color.green],
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+    )
+     let gradienteBotaoRosa = LinearGradient(
+        colors: [Color.orange, Color.pink],
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+    )
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 16) {
+
+                    // Título com degradê
+                    Text("Gerenciador de Gastos")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [Color.blue, Color.purple, Color(red: 1.0, green: 0.35, blue: 0.65)],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .padding(.top)
 
                     // Filtro Mês/Ano
                     HStack {
@@ -75,7 +100,8 @@ struct ContentView: View {
                             .padding()
                             .background(Color.blue.opacity(0.1))
                             .cornerRadius(8)
-                    }.padding(.horizontal)
+                    }
+                    .padding(.horizontal)
 
                     HStack {
                         Text("R$").foregroundColor(.gray)
@@ -85,9 +111,10 @@ struct ContentView: View {
                             .padding()
                             .background(Color.pink.opacity(0.1))
                             .cornerRadius(8)
-                    }.padding(.horizontal)
+                    }
+                    .padding(.horizontal)
 
-                    // Guardar salários
+                    // Botão Guardar salários
                     Button("💾 Guardar") {
                         UserDefaults.standard.set(salarioMarido, forKey: chaveSalarioMarido)
                         UserDefaults.standard.set(salarioEsposa, forKey: chaveSalarioEsposa)
@@ -95,56 +122,61 @@ struct ContentView: View {
                     }
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.blue.opacity(0.7))
+                    .background(gradienteBotaoVerde)
                     .cornerRadius(12)
+                    .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 3)
                     .foregroundColor(.white)
                     .padding(.horizontal)
 
                     if let msg = salarioGuardadoMsg {
                         VStack(spacing: 6) {
                             Text(msg).foregroundColor(.green).bold()
-                            if !salarioMarido.isEmpty { Text("Marido: R$ \(salarioMarido)").foregroundColor(.blue) }
-                            if !salarioEsposa.isEmpty { Text("Esposa: R$ \(salarioEsposa)").foregroundColor(.pink) }
-                        }.padding(.horizontal)
+                            if !salarioMarido.isEmpty {
+                                Text("Marido: R$ \(salarioMarido)")
+                                    .foregroundColor(.blue)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                            }
+                            if !salarioEsposa.isEmpty {
+                                Text("Esposa: R$ \(salarioEsposa)")
+                                    .foregroundColor(.pink)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                            }
+                        }
+                        .padding(.horizontal)
                     }
 
                     // Botão Adicionar Gasto
                     Button("➕ Adicionar Gasto") { mostrarAdicionarGasto = true }
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.green.opacity(0.7))
+                        .background(gradienteBotaoRosa)
                         .cornerRadius(12)
+                        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 3)
                         .foregroundColor(.white)
                         .padding(.horizontal)
 
-                    // Ordena por data decrescente (mais recentes primeiro)
+                    // Ordena por data decrescente
                     let gastosOrdenados = gastosFiltrados.sorted { g1, g2 in
                         guard let d1 = g1.data, let d2 = g2.data else { return g1.data != nil }
                         return d1 > d2
                     }
 
-                    // Lista de gastos
+                    // Lista de gastos (design original)
                     if !gastosOrdenados.isEmpty {
                         List {
                             ForEach(gastosOrdenados) { g in
                                 HStack {
                                     Text(Categoria(rawValue: g.categoria ?? "")?.emoji ?? "❓")
+                                        .frame(width: 30, alignment: .leading)
 
-                                    VStack(alignment: .leading, spacing: 4) {
+                                    VStack(alignment: .leading) {
                                         Text(g.categoria ?? "")
-                                            .font(.subheadline)
                                             .foregroundColor(.gray)
-
                                         if let sub = g.subCategoria, !sub.isEmpty {
-                                            Text(sub)
-                                                .font(.subheadline)
-                                                .foregroundColor(.gray)
+                                            Text(sub).foregroundColor(.gray)
                                         }
-
                                         Text("R$ \(g.valor, specifier: "%.2f") (\(g.formaPagamento ?? ""))")
-                                            .font(.subheadline)
                                             .foregroundColor(.gray)
-
                                         if let data = g.data {
                                             Text("📅 \(data.formatted(.dateTime.day().month().year()))")
                                                 .font(.footnote)
@@ -168,32 +200,42 @@ struct ContentView: View {
                         }
                         .frame(height: 300)
 
-                        // Soma dos gastos
-                        HStack {
-                            Text("💰 Total de Gastos:")
-                                .font(.headline)
-                            Spacer()
-                            Text("R$ \(totalGastos, specifier: "%.2f")")
-                                .font(.headline)
-                                .foregroundColor(.red)
+                        // Somatórios
+                        VStack(spacing: 6) {
+                            HStack {
+                                Text("💰 Total de Gastos").foregroundColor(.gray).fontWeight(.bold)
+                                Spacer()
+                                Text("R$ \(totalGastos, specifier: "%.2f")").foregroundColor(.red).fontWeight(.bold)
+                            }
+                            HStack {
+                                Text("💵 Dinheiro").foregroundColor(.gray)
+                                Spacer()
+                                Text("R$ \(totalDinheiro, specifier: "%.2f")").foregroundColor(.blue)
+                            }
+                            HStack {
+                                Text("💳 Crédito").foregroundColor(.gray)
+                                Spacer()
+                                Text("R$ \(totalCredito, specifier: "%.2f")").foregroundColor(.purple)
+                            }
+                            HStack {
+                                Text("📲 Pix").foregroundColor(.gray)
+                                Spacer()
+                                Text("R$ \(totalPix, specifier: "%.2f")").foregroundColor(.green)
+                            }
+                            HStack {
+                                Text("🏦 Saldo Restante").foregroundColor(.gray).fontWeight(.bold)
+                                Spacer()
+                                Text("R$ \(saldoRestante, specifier: "%.2f")").foregroundColor(.green).fontWeight(.bold)
+                            }
                         }
                         .padding(.horizontal)
-
-                        // Saldo restante
-                        HStack {
-                            Text("💵 Saldo Restante:")
-                                .font(.headline)
-                            Spacer()
-                            Text("R$ \(saldoRestante, specifier: "%.2f")")
-                                .font(.headline)
-                                .foregroundColor(saldoRestante >= 0 ? .green : .red)
-                        }
-                        .padding(.horizontal)
-
-                        Spacer().frame(height: 12)
+                        .padding(.top, 16)
+                        .padding(.bottom, 8)
+                        .background(Color.gray.opacity(0.05))
+                        .cornerRadius(10)
                     }
 
-                    // Gráficos e exportação permanecem iguais
+                    // Gráficos e exportação
                     GraficoEntradasSaidas(
                         gastos: gastosOrdenados,
                         salarioMarido: Double(salarioMarido) ?? 0,
@@ -218,8 +260,10 @@ struct ContentView: View {
                             }
                         }
                         .padding()
-                        .background(Color.orange.opacity(0.7))
-                        .cornerRadius(10)
+                        .frame(maxWidth: .infinity)
+                        .background(gradienteBotaoVerde)
+                        .cornerRadius(12)
+                        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 3)
                         .foregroundColor(.white)
 
                         Button("📄 PDF") {
@@ -251,8 +295,10 @@ struct ContentView: View {
                             }
                         }
                         .padding()
-                        .background(Color.purple.opacity(0.7))
-                        .cornerRadius(10)
+                        .frame(maxWidth: .infinity)
+                        .background(gradienteBotaoVerde)
+                        .cornerRadius(12)
+                        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 3)
                         .foregroundColor(.white)
                     }
                     .padding(.horizontal)
@@ -266,7 +312,6 @@ struct ContentView: View {
                     Button("Concluído") { focusedField = false }
                 }
             }
-            .navigationTitle("Gerenciador de Gastos")
             .sheet(isPresented: $mostrarAdicionarGasto) {
                 AdicionarGastoSheet(controller: controller, mesAtual: mesSelecionado, anoAtual: anoSelecionado)
             }
@@ -275,7 +320,9 @@ struct ContentView: View {
     }
 }
 
-// MARK: - Sheet de Adicionar Gasto (mantido igual)
+
+
+// MARK: - Sheet de Adicionar Gasto
 struct AdicionarGastoSheet: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var controller: GastoController
