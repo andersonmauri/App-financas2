@@ -8,7 +8,7 @@ enum CasaSubCategoria: String, CaseIterable {
 }
 
 enum Categoria: String, CaseIterable {
-    case Agua, Carro, Casa, Credito, Estudos, Feira, Filhos, Farmacia, Ifood, Igreja, Internet, Luz, Mercado, Refeicao, Vestuário, Viagem
+    case Agua, Carro, Casa, Credito, Estudos, Feira, Filhos, Farmacia, Ifood, Igreja, Internet, Luz, Mercado, Refeicao, Vestuário, Viagem, Outros
     
     var emoji: String {
         switch self {
@@ -28,6 +28,7 @@ enum Categoria: String, CaseIterable {
         case .Refeicao: return "🍽️"
         case .Vestuário: return "👕"
         case .Viagem: return "✈️"
+        case .Outros: return "🤔"
         }
     }
 }

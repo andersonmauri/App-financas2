@@ -371,7 +371,10 @@ struct AdicionarGastoSheet: View {
                 }
 
                 Button("Salvar") {
-                    guard let valorDouble = Double(valor) else { return }
+                    // 🔧 Ajuste para aceitar vírgula ou ponto
+                    let valorNormalizado = valor.replacingOccurrences(of: ",", with: ".")
+                    
+                    guard let valorDouble = Double(valorNormalizado) else { return }
 
                     if mostrarParcelas,
                        let parcelas = Int(numeroParcelas),
